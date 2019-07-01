@@ -24,9 +24,9 @@
             var sec = ((millis % 60000) / 1000).toFixed(0);
             sec = sec < 10 ? `0${sec}` : sec;
             return `${min}:${sec}`;
-        }
+        };
 
-        function renderPatio () {
+        function renderGarage () {
             const patio = getPatio();
 
             patio.forEach(c => addCarToGarage(c))
@@ -39,19 +39,20 @@
             row.innerHTML = `
                 <td>${car.veiculo}</td>
                 <td>${car.placa}</td>
+                <td>${new Date(car.time).toLocaleString('pt-BR', { hour: 'numeric', minute: 'numeric' })}</td>
                 <button class="delete">x</button>
             `;
 
             garage.appendChild(row);
-        }
+        };
 
         function removeCar(placa){
             console.log(placa);
-        }
+        };
 
         const getPatio = () => localStorage.patio ? JSON.parse(localStorage.patio) : [];
 
-        renderPatio();
+        renderGarage();
         $("#send").addEventListener("click", e => {
             const veiculo = $("#veiculo").value;
             const placa = $("#placa").value;
@@ -67,8 +68,9 @@
         });
 
         $("#garage").addEventListener("click", (e) => {
-            console.log(e.target.parentElement.cells[1].textContent);
-        })
+            if(e.target.className === "delete")
+                console.log(e.target.parentElement.cells[1].textContent);
+        });
     })()
 </script>
 </html>
