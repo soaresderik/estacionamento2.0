@@ -5,72 +5,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Estacionamento</title>
+    <link rel="stylesheet" href="style.css">  
 </head>
 <body>
     <div>
-        <input type="text" id="veiculo" placeholder="Digite o nome do veículo">
-        <input type="text" id="placa" placeholder="Digite a placa">
-        <button id="send">Registrar</button>
+        <input type="text" id="veiculo" placeholder="Nome do veículo">
+        <input type="text" id="placa" placeholder="Placa do veículo">
+        <button id="send" class="success">Registrar</button>
     </div>
-    <table id="garage"></table>
+    <table>
+        <thead>
+            <tr>
+                <th>Veículo</th>
+                <th>Placa</th>
+                <th>Entrada</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody id="garage"></tbody>
+    </table>
 </body>
 
-<script>
-    (function(){
-        const $ = q => document.querySelector(q);
-
-        function millisToSeconds(millis) {
-            var min = Math.floor(millis / 60000);
-            var sec = ((millis % 60000) / 1000).toFixed(0);
-            sec = sec < 10 ? `0${sec}` : sec;
-            return `${min}:${sec}`;
-        };
-
-        function renderGarage () {
-            const patio = getPatio();
-
-            patio.forEach(c => addCarToGarage(c))
-        };
-
-        function addCarToGarage (car) {
-            const garage = $("#garage");
-
-            const row = document.createElement("tr");
-            row.innerHTML = `
-                <td>${car.veiculo}</td>
-                <td>${car.placa}</td>
-                <td>${new Date(car.time).toLocaleString('pt-BR', { hour: 'numeric', minute: 'numeric' })}</td>
-                <button class="delete">x</button>
-            `;
-
-            garage.appendChild(row);
-        };
-
-        function removeCar(placa){
-            console.log(placa);
-        };
-
-        const getPatio = () => localStorage.patio ? JSON.parse(localStorage.patio) : [];
-
-        renderGarage();
-        $("#send").addEventListener("click", e => {
-            const veiculo = $("#veiculo").value;
-            const placa = $("#placa").value;
-
-            const data = { veiculo, placa, time: new Date() };
-
-            const patio = getPatio();
-            patio.push(data);
-
-            localStorage.patio = JSON.stringify(patio);
-
-            addCarToGarage(data);
-        });
-
-        $("#garage").addEventListener("click", (e) => {
-            if(e.target.className === "delete")
-                console.log(e.target.parentElement.cells[1].textContent);
-        });
-    })()
-</script>
+<script src="main.js"></script>
 </html>
